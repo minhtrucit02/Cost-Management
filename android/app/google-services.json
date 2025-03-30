@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1030751646168",
+    "project_id": "data-region-454715-q2",
+    "storage_bucket": "data-region-454715-q2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030751646168:android:390258913b07c60457c2ad",
+        "android_client_info": {
+          "package_name": "com.example.cost_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjVpbJ2YQRF4raegqV1qFNO5CurPmf8WU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

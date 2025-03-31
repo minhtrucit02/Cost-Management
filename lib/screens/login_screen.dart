@@ -1,3 +1,4 @@
+import 'package:cost_management/home/Dashboard.dart';
 import 'package:cost_management/screens/login_screen.dart';
 import 'package:cost_management/screens/sign_up.dart';
 import 'package:cost_management/services/auth_services.dart';
@@ -6,7 +7,7 @@ import 'package:cost_management/utils/AppValidator.dart';
 
 
 class LoginView extends StatefulWidget{
-  LoginView({super.key});
+  const LoginView({super.key});
 
   @override
   State<LoginView> createState() => LoginViewState();
@@ -27,12 +28,12 @@ class LoginViewState extends State<LoginView> {
         isLoader = true;
       });
       var data = {
-        'Email': _emailController.text,
+        'email': _emailController.text,
         'password': _pssswordController.text,
       };
       await authService.login(data, context);
       setState(() {
-        isLoader =false;
+        isLoader = false;
       });
     }
   }

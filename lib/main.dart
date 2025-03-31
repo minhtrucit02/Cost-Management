@@ -1,5 +1,7 @@
+import 'package:cost_management/home/Dashboard.dart';
 import 'package:cost_management/screens/login_screen.dart';
 import 'package:cost_management/screens/sign_up.dart';
+import 'package:cost_management/widgets/auth_gate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Cost management',
       debugShowCheckedModeBanner: false,
-      home: LoginView(),
+      home: Dashboard(),
     );
   }
 }

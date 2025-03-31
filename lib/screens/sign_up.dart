@@ -1,3 +1,4 @@
+import 'package:cost_management/home/Dashboard.dart';
 import 'package:cost_management/screens/login_screen.dart';
 import 'package:cost_management/services/auth_services.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,10 @@ class _SignUpViewState extends State<SignUpView> {
         'password': _pssswordController.text
       };
       await authService.createUser(data, context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Dashboard()),
+      );
       setState(() {
         isLoader =false;
       });

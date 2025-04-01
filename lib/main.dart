@@ -2,6 +2,7 @@ import 'package:cost_management/home/Dashboard.dart';
 import 'package:cost_management/screens/login_screen.dart';
 import 'package:cost_management/screens/sign_up.dart';
 import 'package:cost_management/widgets/auth_gate.dart';
+import 'package:cost_management/widgets/transaction_card.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -23,8 +24,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Cost management',
+      builder: (context,child){
+        return MediaQuery(data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
+            child: child!);
+      },
       debugShowCheckedModeBanner: false,
-      home: Dashboard(),
+      home: LoginView(),
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:cost_management/home/Dashboard.dart';
+import 'package:cost_management/home/dashboard.dart';
 import 'package:cost_management/screens/login_screen.dart';
 import 'package:cost_management/services/auth_services.dart';
 import 'package:flutter/material.dart';
@@ -32,13 +32,12 @@ class _SignUpViewState extends State<SignUpView> {
         'username': _userNameController.text,
         'email': _emailController.text,
         'phone': _phoneController.text,
-        'password': _pssswordController.text
+        'password': _pssswordController.text,
+        'remainingAmount': 0,
+        'totalCredit': 0,
+        'totalDebit': 0
       };
       await authService.createUser(data, context);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Dashboard()),
-      );
       setState(() {
         isLoader =false;
       });
@@ -177,5 +176,4 @@ class _SignUpViewState extends State<SignUpView> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))
     );
   }
-
 }

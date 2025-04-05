@@ -1,4 +1,6 @@
-import 'package:cost_management/home/Dashboard.dart';
+import 'package:cost_management/home/dashboard.dart';
+import 'package:cost_management/home/brackground.dart';
+import 'package:cost_management/home/home_screen.dart';
 import 'package:cost_management/screens/login_screen.dart';
 import 'package:cost_management/screens/sign_up.dart';
 import 'package:cost_management/widgets/auth_gate.dart';

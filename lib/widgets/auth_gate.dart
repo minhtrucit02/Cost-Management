@@ -1,4 +1,4 @@
-import 'package:cost_management/home/Dashboard.dart';
+import 'package:cost_management/home/dashboard.dart';
 import 'package:cost_management/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

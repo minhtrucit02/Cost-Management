@@ -1,15 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../home/Dashboard.dart';
+import '../home/dashboard.dart';
+import 'db.dart';
 
 class AuthService{
+  var db = Db();
   createUser(data, context) async {
     try {
       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: data['email'],
         password: data['password'],
       );
+      await db.addUser(data, context);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => Dashboard()),

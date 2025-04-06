@@ -34,7 +34,6 @@ class LoginViewState extends State<LoginView> {
         isLoader = false;
       });
 
-      // After successful login, navigate to Dashboard
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => Dashboard()),

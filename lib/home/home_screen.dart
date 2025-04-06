@@ -15,46 +15,51 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var isLogoutLoading = false;
-  final userId = FirebaseAuth.instance.currentUser!.uid;
+    String? userId;
 
-  // Check if user is authenticated on initial screen load
   @override
   void initState() {
     super.initState();
 
-    // Redirect to Login screen if no user is logged in
-    if (FirebaseAuth.instance.currentUser == null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginView()),
-      );
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user  == null) {
+      WidgetsBinding.instance.addPostFrameCallback( (_){
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginView()),
+        );
+      });
+    }
+    else {
+      userId = user.uid;
     }
   }
 
   // Logout function
-  logout() async {
+  Future<void> logout() async {
     setState(() {
-      isLogoutLoading = true;
+      isLogoutLoading =true;
     });
     await FirebaseAuth.instance.signOut();
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const LoginView()),
-    );
-
+    if(mounted){
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginView()));
+    }
     setState(() {
       isLogoutLoading = false;
     });
   }
 
   // Show Add Transaction Form dialog
-  _dialoBuilder(BuildContext context) {
-    return showDialog(
+  void _dialoBuilder(BuildContext context) {
+    showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          content: const AddTransactionForm(),
+        return const AlertDialog(
+          content: AddTransactionForm(),
         );
       },
     );
@@ -62,12 +67,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if(userId == null){
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue.shade900,
-        onPressed: () {
-          _dialoBuilder(context);
-        },
+        onPressed: () => _dialoBuilder(context),
         child: const Icon(
           Icons.add,
           color: Colors.white,
@@ -81,11 +90,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              logout();
-            },
+            onPressed: logout,
             icon: isLogoutLoading
-                ? const CircularProgressIndicator()
+                ? const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                color: Colors.white,
+                strokeWidth: 2,
+              ),
+            )
                 : const Icon(Icons.exit_to_app, color: Colors.white),
           ),
         ],
@@ -95,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Colors.white,
         child: Column(
           children: [
-            HeroCard(userId: userId),
+            HeroCard(userId: userId!),
             const TransactionCard(),
           ],
         ),

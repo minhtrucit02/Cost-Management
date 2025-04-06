@@ -23,66 +23,71 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
   var titleEditController = TextEditingController();
   var uid = Uuid();
 
-  Future<void> _submitForm()async {
-    if(_formKey.currentState!.validate()){
+  Future<void> _submitForm() async {
+    if (_formKey.currentState!.validate()) {
       setState(() {
         isLoader = true;
       });
-    final user = FirebaseAuth.instance.currentUser;
-    Timestamp timestamp = Timestamp.now();
-    var amount = int.parse(amountEditController.text);
-    DateTime date = DateTime.now();
 
-    var id = uid.v4();
-    String monthYear = DateFormat('MMM y ').format(date);
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        throw Exception("User not logged in");
+      }
 
-    final userDoc = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
-    int remainingAmount = userDoc['remainingAmount'];
-    int totalCredit = userDoc['totalCredit'];
-    int totalDebit = userDoc['totalDebit'];
+      Timestamp timestamp = Timestamp.now();
+      int amount = int.parse(amountEditController.text);
+      DateTime date = DateTime.now();
+      String id = uid.v4();
+      String monthYear = DateFormat('MMM y ').format(date);
+      String userId = user.uid; // Retrieve userId from current user
 
-    if(type == "Credit"){
-      remainingAmount += amount;
-      totalCredit += amount;
+      // Retrieve user document
+      final userDoc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      int remainingAmount = userDoc['remainingAmount'];
+      int totalCredit = userDoc['totalCredit'];
+      int totalDebit = userDoc['totalDebit'];
+
+      // Update financial values based on transaction type
+      if (type == "Credit") {
+        remainingAmount += amount;
+        totalCredit += amount;
+      } else {
+        remainingAmount -= amount;
+        totalDebit -= amount;
+      }
+
+      // Update user document with new financial values
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({
+        "remainingAmount": remainingAmount,
+        "totalCredit": totalCredit,
+        "totalDebit": totalDebit,
+        "updateAt": timestamp,
+      });
+
+      // Create transaction data including userId
+      var data = {
+        "id": id,
+        "userId": userId, // Add userId field
+        "title": titleEditController.text,
+        "amount": amount,
+        "type": type,
+        "timestamp": timestamp,
+        "totalCredit": totalCredit,
+        "totalDebit": totalDebit,
+        "remainingAmount": remainingAmount,
+        "monthYear": monthYear,
+        "category": category,
+      };
+
+      await FirebaseFirestore.instance.collection('transactions').doc(id).set(data);
+
+      Navigator.pop(context);
+
+      setState(() {
+        isLoader = false;
+      });
     }
-    else{
-      remainingAmount -= amount;
-      totalDebit -= amount;
-    }
-
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .update({
-            "remainingAmount": remainingAmount,
-            "totalCredit": totalCredit,
-            "totalDebit": totalDebit,
-            "updateAt": timestamp,
-    });
-
-    var data = {
-      "id": id,
-      "title": titleEditController.text,
-      "amount": amount,
-      "type": type,
-      "timestamp": timestamp,
-      "totalCredit": totalCredit,
-      "totalDebit": totalDebit,
-      "remainingAmount": remainingAmount,
-      "monthYear": monthYear,
-      "category": category,
-
-    };
-
-    await FirebaseFirestore.instance.collection('transactions').doc(id).set(data);
-    Navigator.pop(context);
-    setState(() {
-      isLoader = false;
-    });
-
-    }
-  }
-  @override
+  }  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Form(

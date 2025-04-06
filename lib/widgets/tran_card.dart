@@ -4,10 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 class TranCard extends StatelessWidget {
-  TranCard({super.key, this.data});
+  TranCard({super.key, required this.data});
 
   var appIcons = AppIcons();
-  final dynamic data;
+  final Map<String, dynamic> data;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class TranCard extends StatelessWidget {
         child: ListTile(
           minVerticalPadding: 10,
           contentPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
-          leading: Container(
+          leading: SizedBox(
             width: 70,
             height: 100,
             child: Container(

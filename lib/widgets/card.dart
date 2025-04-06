@@ -6,31 +6,37 @@ class HeroCard extends StatelessWidget {
   const HeroCard({super.key, required this.userId});
 
   final String userId;
+
   @override
   Widget build(BuildContext context) {
-    final Stream<DocumentSnapshot> usersStream = FirebaseFirestore.instance
-        .collection('users').doc(userId).snapshots();
+    final usersStream = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .snapshots();
+
     return StreamBuilder<DocumentSnapshot>(
-        stream: usersStream,
-        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
-          if(snapshot.hasError){
-            return Text("Some thing went wrong");
-          }
-          if(!snapshot.hasData || !snapshot.data!.exists){
-            return const Text("Document does not exits");
-          }
-          if(snapshot.connectionState == ConnectionState.waiting){
-            return Text("Loading");
-          }
-          var data = snapshot.data!.data() as Map<String, dynamic>;
-          return Cards(
-            data: data,
-          );
+      stream: usersStream,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
         }
+
+        if (snapshot.hasError) {
+          return const Center(child: Text("Something went wrong"));
+        }
+
+        if (!snapshot.hasData || !snapshot.data!.exists) {
+          print(usersStream);
+          return const Center(child: Text("Document does not exist"));
+        }
+
+        final data = snapshot.data!.data() as Map<String, dynamic>;
+        return Cards(data: data);
+      },
     );
   }
-
 }
+
 class Cards extends StatelessWidget{
   const Cards({super.key, required this.data});
 
@@ -114,7 +120,7 @@ class CardOne extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("heading", style: TextStyle(color: color, fontSize: 15)),
+                  Text(heading, style: TextStyle(color: color, fontSize: 15)),
                   Text(
                     amount,
                     style: TextStyle(

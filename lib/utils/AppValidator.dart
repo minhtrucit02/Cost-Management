@@ -36,5 +36,4 @@ class AppValidator {
     }
     return null;
   }
-
 }

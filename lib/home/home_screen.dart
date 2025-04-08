@@ -107,12 +107,14 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Container(
         width: double.infinity,
         color: Colors.white,
-        child: Column(
-          children: [
-            HeroCard(userId: userId!),
-            const TransactionCard(),
-          ],
-        ),
+        child: SingleChildScrollView(
+            child: Column(
+              children: [
+                HeroCard(userId: userId!),
+                const TransactionCard(),
+              ],
+            ),
+          ),
       ),
     );
   }

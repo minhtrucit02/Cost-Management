@@ -38,8 +38,8 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
       int amount = int.parse(amountEditController.text);
       DateTime date = DateTime.now();
       String id = uid.v4();
-      String monthYear = DateFormat('MMM y ').format(date);
-      String userId = user.uid; // Retrieve userId from current user
+      String monthYear = DateFormat(' d MM yyy hh:mma ').format(date);
+      String userId = user.uid;
 
       // Retrieve user document
       final userDoc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
@@ -47,7 +47,6 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
       int totalCredit = userDoc['totalCredit'];
       int totalDebit = userDoc['totalDebit'];
 
-      // Update financial values based on transaction type
       if (type == "Credit") {
         remainingAmount += amount;
         totalCredit += amount;
@@ -56,7 +55,6 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
         totalDebit -= amount;
       }
 
-      // Update user document with new financial values
       await FirebaseFirestore.instance.collection('users').doc(userId).update({
         "remainingAmount": remainingAmount,
         "totalCredit": totalCredit,
@@ -64,10 +62,10 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
         "updateAt": timestamp,
       });
 
-      // Create transaction data including userId
+
       var data = {
         "id": id,
-        "userId": userId, // Add userId field
+        "userId": userId,
         "title": titleEditController.text,
         "amount": amount,
         "type": type,

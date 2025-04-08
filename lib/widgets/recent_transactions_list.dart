@@ -19,7 +19,7 @@ class RecentTransactionList extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('transactions')
-          .where('userId',isEqualTo: 'mtkwnlYnJTgtkdWQUXCxnLiJlR12')
+          .where('userId',isEqualTo: userId)
           .orderBy('timestamp', descending: true)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

@@ -1,4 +1,6 @@
-import 'package:cost_management/home/background.dart';
+import 'package:cost_management/UserServices/sign_up.dart';
+import 'package:cost_management/account/profileUser.dart';
+import 'package:cost_management/home/home_screen_login.dart';
 import 'package:cost_management/home/dashboard.dart';
 import 'package:cost_management/home/home_screen.dart';
 import 'package:cost_management/screens/login_screen.dart';
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
             child: child!);
       },
       debugShowCheckedModeBanner: false,
-      home: BackGround(),
+      home: Background(),
     );
   }
 }

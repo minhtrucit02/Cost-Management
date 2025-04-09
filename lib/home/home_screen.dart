@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var isLogoutLoading = false;
-    String? userId;
+  String? userId;
 
   @override
   void initState() {
@@ -23,15 +23,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final user = FirebaseAuth.instance.currentUser;
 
-    if (user  == null) {
-      WidgetsBinding.instance.addPostFrameCallback( (_){
+    if (user == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const LoginView()),
         );
       });
-    }
-    else {
+    } else {
       userId = user.uid;
     }
   }
@@ -39,14 +38,15 @@ class _HomeScreenState extends State<HomeScreen> {
   // Logout function
   Future<void> logout() async {
     setState(() {
-      isLogoutLoading =true;
+      isLogoutLoading = true;
     });
     await FirebaseAuth.instance.signOut();
 
-    if(mounted){
+    if (mounted) {
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginView()));
+        context,
+        MaterialPageRoute(builder: (context) => const LoginView()),
+      );
     }
     setState(() {
       isLogoutLoading = false;
@@ -58,29 +58,22 @@ class _HomeScreenState extends State<HomeScreen> {
     showDialog(
       context: context,
       builder: (context) {
-        return const AlertDialog(
-          content: AddTransactionForm(),
-        );
+        return const AlertDialog(content: AddTransactionForm());
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    if(userId == null){
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+    if (userId == null) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue.shade900,
         onPressed: () => _dialoBuilder(context),
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
       appBar: AppBar(
         backgroundColor: Colors.blue.shade900,
@@ -91,16 +84,17 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: logout,
-            icon: isLogoutLoading
-                ? const SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                color: Colors.white,
-                strokeWidth: 2,
-              ),
-            )
-                : const Icon(Icons.exit_to_app, color: Colors.white),
+            icon:
+                isLogoutLoading
+                    ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2,
+                      ),
+                    )
+                    : const Icon(Icons.exit_to_app, color: Colors.white),
           ),
         ],
       ),
@@ -108,13 +102,10 @@ class _HomeScreenState extends State<HomeScreen> {
         width: double.infinity,
         color: Colors.white,
         child: SingleChildScrollView(
-            child: Column(
-              children: [
-                HeroCard(userId: userId!),
-                const TransactionCard(),
-              ],
-            ),
+          child: Column(
+            children: [HeroCard(userId: userId!), const TransactionCard()],
           ),
+        ),
       ),
     );
   }

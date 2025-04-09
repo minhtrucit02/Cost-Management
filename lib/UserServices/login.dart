@@ -1,18 +1,19 @@
-import 'package:cost_management/home/home_screen_login.dart';
-import 'package:cost_management/home/dashboard.dart';
-import 'package:cost_management/screens/sign_up.dart';
-import 'package:cost_management/services/auth_services.dart';
-import 'package:flutter/material.dart';
-import 'package:cost_management/utils/AppValidator.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+import 'package:cost_management/UserServices/sign_up.dart';
+import 'package:flutter/material.dart';
+
+import '../home/home_screen_login.dart';
+import '../services/auth_services.dart';
+import '../utils/AppValidator.dart';
+
+class Login extends StatefulWidget {
+  const Login({super.key});
 
   @override
-  State<LoginView> createState() => LoginViewState();
+  State<Login> createState() => LoginState();
 }
 
-class LoginViewState extends State<LoginView> {
+class LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -113,7 +114,7 @@ class LoginViewState extends State<LoginView> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SignUpView()),
+                    MaterialPageRoute(builder: (context) => SignUp()),
                   );
                 },
                 child: const Text(

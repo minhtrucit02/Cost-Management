@@ -43,23 +43,9 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
 
       // Retrieve user document
       final userDoc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
-      int remainingAmount = userDoc['remainingAmount'];
-      int totalCredit = userDoc['totalCredit'];
-      int totalDebit = userDoc['totalDebit'];
-
-      if (type == "Credit") {
-        remainingAmount += amount;
-        totalCredit += amount;
-      } else {
-        remainingAmount -= amount;
-        totalDebit -= amount;
-      }
 
       await FirebaseFirestore.instance.collection('users').doc(userId).update({
-        "remainingAmount": remainingAmount,
-        "totalCredit": totalCredit,
-        "totalDebit": totalDebit,
-        "updateAt": timestamp,
+
       });
 
 
@@ -67,14 +53,10 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
         "id": id,
         "userId": userId,
         "title": titleEditController.text,
-        "amount": amount,
         "type": type,
         "timestamp": timestamp,
-        "totalCredit": totalCredit,
-        "totalDebit": totalDebit,
-        "remainingAmount": remainingAmount,
         "monthYear": monthYear,
-        "category": category,
+        "description":"",
       };
 
       await FirebaseFirestore.instance.collection('transactions').doc(id).set(data);

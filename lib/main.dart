@@ -1,3 +1,5 @@
+import 'package:cost_management/Budget/BudgetCard.dart';
+import 'package:cost_management/Expense/ExpenseForm.dart';
 import 'package:cost_management/UserServices/sign_up.dart';
 import 'package:cost_management/account/profileUser.dart';
 import 'package:cost_management/home/home_screen_login.dart';
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
             child: child!);
       },
       debugShowCheckedModeBanner: false,
-      home: Background(),
+      home: BudgetCard(),
     );
   }
 }

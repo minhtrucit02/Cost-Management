@@ -4,7 +4,7 @@ import 'package:cost_management/account/profileUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../home/home_screen_login.dart';
+import '../Background/Background.dart';
 
 class AccountUser extends StatelessWidget {
   const AccountUser({super.key});

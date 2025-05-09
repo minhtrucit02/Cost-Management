@@ -6,11 +6,18 @@ class ProfileUser extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.blue[50],
       appBar: AppBar(
         backgroundColor: Colors.blue[100],
         title: Text('Thông tin cá nhân'),
         centerTitle: true,
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text ("Username: "),
+        ],
       ),
     );
   }

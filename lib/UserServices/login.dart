@@ -1,8 +1,7 @@
 
 import 'package:cost_management/UserServices/sign_up.dart';
 import 'package:flutter/material.dart';
-
-import '../home/home_screen_login.dart';
+import '../Background/Background.dart';
 import '../services/auth_services.dart';
 import '../utils/AppValidator.dart';
 
@@ -86,7 +85,7 @@ class LoginState extends State<Login> {
                 controller: _passwordController,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: _buildInputDecoration("Password", Icons.lock),
-                validator: appValidator.validatePhoneNumber, // Use password validator
+                validator: appValidator.validatePhoneNumber,
                 obscureText: true, // Obscure password text
               ),
               const SizedBox(
@@ -100,7 +99,7 @@ class LoginState extends State<Login> {
                     backgroundColor: Colors.yellow,
                   ),
                   onPressed: () {
-                    isLoader ? null : _submitForm(); // Prevent multiple submissions
+                    isLoader ? null : _submitForm();
                   },
                   child: isLoader
                       ? const Center(child: CircularProgressIndicator())

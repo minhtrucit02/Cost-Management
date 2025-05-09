@@ -1,17 +1,15 @@
+import 'package:cost_management/services/Connected.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../services/Connected.dart';
-
-class ExpenseSummary extends StatefulWidget {
-  const ExpenseSummary({super.key});
+class WeeklyChart extends StatefulWidget {
+  const WeeklyChart({super.key});
 
   @override
-  State<ExpenseSummary> createState() => ExpenseSummaryState();
+  State<WeeklyChart> createState() => _WeeklyChartState();
 }
 
-class ExpenseSummaryState extends State<ExpenseSummary> {
-
+class _WeeklyChartState extends State<WeeklyChart> {
   late Future<List<int>> futureData;
 
   @override
@@ -29,6 +27,7 @@ class ExpenseSummaryState extends State<ExpenseSummary> {
       _loadData();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<int>>(
@@ -53,6 +52,18 @@ class ExpenseSummaryState extends State<ExpenseSummary> {
               child: Text(
                 "Tổng chi tiêu tháng ${DateTime.now().month}: ${formatter.format(totalMonth)} đ",
                 style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: weeklyTotals.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: const Icon(Icons.calendar_today),
+                    title: Text("Tuần ${index + 1}"),
+                    trailing: Text("${formatter.format(weeklyTotals[index])} đ"),
+                  );
+                },
               ),
             ),
           ],

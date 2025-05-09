@@ -1,10 +1,13 @@
 import 'package:cost_management/Budget/budget.dart';
-import 'package:cost_management/Expense/addExpense.dart';
+import 'package:cost_management/Expense/AddExpense/addExpense.dart';
+import 'package:cost_management/TrackExpense/TrackExpense.dart';
+import 'package:cost_management/Transaction/FilterTransactionScreen.dart';
 import 'package:cost_management/account/account_user.dart';
 import 'package:flutter/material.dart';
 
 import '../Action_background/ActionIcon.dart';
 import '../Action_background/ExpenseSumary.dart';
+import '../Budget/BudgetCard.dart';
 
 class Background extends StatefulWidget {
   const Background({super.key});
@@ -12,7 +15,6 @@ class Background extends StatefulWidget {
   @override
   State<Background> createState() => BackgroundState();
 }
-
 
 class _ActionItem {
   final IconData icon;
@@ -24,34 +26,45 @@ class _ActionItem {
 
 class BackgroundState extends State<Background> {
   int _currentIndex = 0;
+  final GlobalKey<ExpenseSummaryState> _summaryKey = GlobalKey<ExpenseSummaryState>();
 
   final List<_ActionItem> _actionItems = [
-    _ActionItem(icon: Icons.label, label: "Phân loại\nGiao dịch", screen: Budget()),
+    _ActionItem(icon: Icons.label, label: "Phân loại\nGiao dịch", screen: FilterTransactionScreen()),
     _ActionItem(icon: Icons.edit_note, label: "Ghi chép\nGiao dịch", screen: AddExpense()),
-    _ActionItem(icon: Icons.show_chart, label: "Biến động\nThu chi", screen: Budget()),
+    _ActionItem(icon: Icons.show_chart, label: "Biến động\nThu chi", screen: BudgetCard()),
     _ActionItem(icon: Icons.widgets_outlined, label: "Tiện ích\nkhác", screen: Budget()),
   ];
 
-  void _handleNavigation(int index){
+  void _handleNavigation(int index) {
     setState(() {
       _currentIndex = index;
     });
+
+    late final Widget targetScreen;
+    bool shouldNavigate = true;
+
     switch (index) {
       case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (_) => Background()));
+        targetScreen = TrackExpense();
         break;
       case 2:
-        Navigator.push(context, MaterialPageRoute(builder: (_) => AddExpense()));
+        targetScreen = AddExpense();
         break;
       case 3:
-        Navigator.push(context, MaterialPageRoute(builder: (_) => Budget()));
+        targetScreen = BudgetCard();
         break;
       case 4:
-        Navigator.push(context, MaterialPageRoute(builder: (_) => Background()));
+        targetScreen = Background();
         break;
       default:
+        shouldNavigate = false;
+    }
 
-        break;
+    if (shouldNavigate) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => targetScreen))
+          .then((_) {
+        _summaryKey.currentState?.refreshData();
+      });
     }
   }
 
@@ -62,7 +75,7 @@ class BackgroundState extends State<Background> {
       appBar: AppBar(
         backgroundColor: Colors.blue[100],
         title: const Text('Quản lý chi tiêu'),
-        actions: const [AccountUser()],
+        actions: [AccountUser()],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -106,10 +119,14 @@ class BackgroundState extends State<Background> {
           return ActionIcon(
             icon: item.icon,
             label: item.label,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => item.screen),
-            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => item.screen),
+              ).then((_) {
+                _summaryKey.currentState?.refreshData();
+              });
+            },
           );
         }).toList(),
       ),
@@ -124,7 +141,7 @@ class BackgroundState extends State<Background> {
         children: [
           Row(
             children: const [
-              Text("Tình hình thu chi", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              Text("Tình hình chi tiêu", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               SizedBox(width: 8),
               Icon(Icons.remove_red_eye_outlined),
             ],
@@ -138,9 +155,8 @@ class BackgroundState extends State<Background> {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
-                ExpenseSummary(title: "Chi tiêu", amount: "135.000đ"),
-                ExpenseSummary(title: "Thu nhập", amount: "65đ"),
+              children: [
+                ExpenseSummary(key: _summaryKey),
               ],
             ),
           ),
@@ -173,6 +189,3 @@ class BackgroundState extends State<Background> {
     );
   }
 }
-
-
-

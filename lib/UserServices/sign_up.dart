@@ -5,8 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
-import '../screens/login_screen.dart';
+import 'login.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -65,7 +64,7 @@ class _SignUpState extends State<SignUp> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginView()),
+        MaterialPageRoute(builder: (context) => Login()),
       );
     } catch (e) {
       // Specific error handling
@@ -145,7 +144,7 @@ class _SignUpState extends State<SignUp> {
                   onPressed: () {
                     Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginView())
+                        MaterialPageRoute(builder: (context) => Login())
                     );
                   },
                   child: const Text("Login",

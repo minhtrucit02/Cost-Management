@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../home/dashboard.dart';
+import '../Background/Background.dart';
 import 'db.dart';
 
 class AuthService {
@@ -13,7 +13,6 @@ class AuthService {
       );
       return;
     }
-
     try {
       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: data['email'],
@@ -24,7 +23,7 @@ class AuthService {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const Dashboard()),
+        MaterialPageRoute(builder: (context) => Background()),
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -63,7 +62,7 @@ class AuthService {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const Dashboard()),
+        MaterialPageRoute(builder: (context) => const Background()),
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

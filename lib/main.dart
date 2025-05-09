@@ -1,17 +1,7 @@
-import 'package:cost_management/Budget/BudgetCard.dart';
-import 'package:cost_management/Expense/ExpenseForm.dart';
-import 'package:cost_management/UserServices/sign_up.dart';
-import 'package:cost_management/account/profileUser.dart';
-import 'package:cost_management/home/home_screen_login.dart';
-import 'package:cost_management/home/dashboard.dart';
-import 'package:cost_management/home/home_screen.dart';
-import 'package:cost_management/screens/login_screen.dart';
-import 'package:cost_management/screens/sign_up.dart';
-import 'package:cost_management/widgets/auth_gate.dart';
-import 'package:cost_management/widgets/transaction_card.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
+import 'Background/Background.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -35,7 +25,7 @@ class MyApp extends StatelessWidget {
             child: child!);
       },
       debugShowCheckedModeBanner: false,
-      home: BudgetCard(),
+      home:Background(),
     );
   }
 }

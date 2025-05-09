@@ -59,8 +59,8 @@ class _ExpenseFormState extends State<ExpenseForm>
         "userId": user.uid,
         "title": categoryController.text,
         "type": selectedType,
-        "timestamp": now.toIso8601String(),
-        "monthYear": "${now.day}-${now.month}-${now.year}",
+        "timestamp": Timestamp.fromDate(now),
+        "monthYear": "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}",
         "amount": double.tryParse(amountController.text) ?? 0,
         "description": noteController.text,
       };
@@ -71,7 +71,7 @@ class _ExpenseFormState extends State<ExpenseForm>
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Đã thêm giao dịch thành công")),
       );
-      Navigator.pop(context);
+      Navigator.pop(context,true);
     }
   }
 
@@ -189,27 +189,7 @@ class _ExpenseFormState extends State<ExpenseForm>
                   text: "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"
               ),
             ),
-            // const SizedBox(height: 20),
-            // DropdownButtonFormField<String>(
-            //   decoration: const InputDecoration(
-            //     labelText: 'Nguồn tiền',
-            //     border: OutlineInputBorder(),
-            //   ),
-            //   value: selectedSource,
-            //   items: const [
-            //     DropdownMenuItem(
-            //       value: 'momo',
-            //       child: Row(
-            //         children: [
-            //           Icon(Icons.account_balance_wallet),
-            //           SizedBox(width: 8),
-            //           Text('Ngoài MoMo'),
-            //         ],
-            //       ),
-            //     )
-            //   ],
-            //   onChanged: (value) => setState(() => selectedSource = value!),
-            // ),
+
             const SizedBox(height: 20),
             TextFormField(
               controller: noteController,
